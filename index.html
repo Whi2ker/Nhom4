@@ -29,6 +29,60 @@
             overflow: hidden;
         }
 
+        .navbar {
+            background: #2c3e50;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 15px;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar li {
+            margin: 0;
+        }
+
+        .navbar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 18px 25px;
+            transition: background 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navbar a:hover {
+            background: #667eea;
+        }
+
         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -208,6 +262,39 @@
             justify-content: center;
         }
 
+        .chapters-summary {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .chapter-item {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .chapter-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .chapter-item h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .chapter-item p {
+            color: #666;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
         footer {
             background: #333;
             color: white;
@@ -218,7 +305,7 @@
 
         @media (max-width: 768px) {
             header h1 {
-                font-size: 1.8em;
+                font-size: 2.5em;
             }
 
             .content {
@@ -232,6 +319,32 @@
             .members-list {
                 grid-template-columns: 1fr;
             }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .navbar-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .navbar ul.active {
+                max-height: 500px;
+            }
+
+            .navbar a {
+                padding: 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
         }
     </style>
 </head>
@@ -242,9 +355,24 @@
             <p>Báo cáo môn Kinh tế Vĩ mô 2</p>
         </header>
 
+        <!-- Menu điều hướng -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+                <ul id="navMenu">
+                    <li><a href="#monhoc" onclick="closeMenu()">Môn học</a></li>
+                    <li><a href="#thanhvien" onclick="closeMenu()">Thành viên</a></li>
+                    <li><a href="#chude" onclick="closeMenu()">Chủ đề</a></li>
+                    <li><a href="#tailieu" onclick="closeMenu()">Tài liệu</a></li>
+                    <li><a href="#thuyettrinh" onclick="closeMenu()">Thuyết trình</a></li>
+                    <li><a href="#video" onclick="closeMenu()">Video</a></li>
+                </ul>
+            </div>
+        </nav>
+
         <div class="content">
             <!-- Thông tin môn học -->
-            <div class="section">
+            <div class="section" id="monhoc">
                 <h2>Thông tin môn học</h2>
                 <div class="info-grid">
                     <div class="info-item">
@@ -259,7 +387,7 @@
             </div>
 
             <!-- Thông tin nhóm -->
-            <div class="section">
+            <div class="section" id="thanhvien">
                 <h2>Thành viên nhóm</h2>
                 <div class="members-list">
                     <div class="member-card">
@@ -278,7 +406,7 @@
             </div>
 
             <!-- Chủ đề báo cáo -->
-            <div class="section">
+            <div class="section" id="chude">
                 <h2>Chủ đề báo cáo</h2>
                 <div class="topic-description">
                     <h3>📊 Lạm phát và Thất nghiệp</h3>
@@ -291,8 +419,39 @@
             </div>
 
             <!-- Tài liệu báo cáo -->
-            <div class="section">
+            <div class="section" id="tailieu">
                 <h2>Tài liệu báo cáo</h2>
+                
+                <!-- Tóm tắt nội dung các chương -->
+                <div class="chapters-summary">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">📚 Tóm tắt nội dung các chương</h3>
+                    
+                    <div class="chapter-item">
+                        <h4>Chương 1: [Tên chương 1]</h4>
+                        <p>[Nội dung tóm tắt chương 1 sẽ được bổ sung sau]</p>
+                    </div>
+
+                    <div class="chapter-item">
+                        <h4>Chương 2: [Tên chương 2]</h4>
+                        <p>[Nội dung tóm tắt chương 2 sẽ được bổ sung sau]</p>
+                    </div>
+
+                    <div class="chapter-item">
+                        <h4>Chương 3: [Tên chương 3]</h4>
+                        <p>[Nội dung tóm tắt chương 3 sẽ được bổ sung sau]</p>
+                    </div>
+
+                    <div class="chapter-item">
+                        <h4>Chương 4: [Tên chương 4]</h4>
+                        <p>[Nội dung tóm tắt chương 4 sẽ được bổ sung sau]</p>
+                    </div>
+
+                    <div class="chapter-item">
+                        <h4>Chương 5: [Tên chương 5]</h4>
+                        <p>[Nội dung tóm tắt chương 5 sẽ được bổ sung sau]</p>
+                    </div>
+                </div>
+
                 <div class="download-section">
                     <h3>📄 File Word</h3>
                     <a href="#" class="download-btn disabled">Tải xuống báo cáo (Đang cập nhật)</a>
@@ -303,7 +462,7 @@
             </div>
 
             <!-- Bài thuyết trình -->
-            <div class="section">
+            <div class="section" id="thuyettrinh">
                 <h2>Bài thuyết trình</h2>
                 <div class="presentation-container">
                     <div class="placeholder-text">
@@ -320,7 +479,7 @@
             </div>
 
             <!-- Video thuyết trình -->
-            <div class="section">
+            <div class="section" id="video">
                 <h2>Video thuyết trình</h2>
                 <div class="video-container">
                     <div class="placeholder-text">
@@ -339,5 +498,28 @@
             <p>&copy; 2025 Nhóm 4 - Kinh tế Vĩ mô 2 | Giảng viên: Võ Thành Danh</p>
         </footer>
     </div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.remove('active');
+        }
+
+        // Đóng menu khi click bên ngoài
+        document.addEventListener('click', function(event) {
+            const navbar = document.querySelector('.navbar');
+            const menu = document.getElementById('navMenu');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (!navbar.contains(event.target)) {
+                menu.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
